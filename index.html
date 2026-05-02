@@ -360,7 +360,18 @@
   .stripe-note{display:flex;align-items:flex-start;gap:10px;background:rgba(124,58,237,.07);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:16px;font-size:12px;color:var(--text-muted);line-height:1.5}
   .stripe-note svg{flex-shrink:0;margin-top:1px}
 
-  /* Prevent iOS zoom on input focus */
+  @media(max-width:480px){
+    /* prevent any side-clipping of cards */
+    .event-card, .social-card, .giveaway-card, .event-info-card {
+      overflow: visible !important;
+    }
+    /* ensure section padding doesn't clip */
+    section { overflow: visible !important; }
+    .social-section { padding-left: 12px; padding-right: 12px; }
+    .social-card { border-radius: 16px; }
+  }
+
+  /* FOOTER */
   @media(max-width:480px){
     input, select, textarea { font-size: 16px !important; }
     /* Full-width maps/ticket buttons inside event card on mobile */
@@ -369,6 +380,49 @@
       font-size: 15px !important;
       padding: 13px 16px !important;
     }
+  }
+
+  /* SOCIAL CARDS */
+  .social-section{padding:8px 16px;position:relative;z-index:1}
+  .social-section--first{padding-top:40px}
+  .social-section--last{padding-bottom:80px}
+  .social-wrap{max-width:600px;margin:0 auto}
+  .social-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    transition:all .3s;
+    box-shadow:0 0 0 1px var(--glow,rgba(255,255,255,.1)),inset 0 0 40px transparent;
+  }
+  .social-card:hover{box-shadow:0 0 0 1px var(--glow-hover,rgba(255,255,255,.3)),0 16px 48px var(--glow-shadow,rgba(0,0,0,.1)),inset 0 0 40px var(--glow-shadow,rgba(0,0,0,.05))}
+  .social-icon{
+    flex-shrink:0;
+    width:58px;height:58px;
+    border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .social-text{flex:1;min-width:0}
+  .social-name{font-size:17px;font-weight:800;letter-spacing:-.2px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .social-handle{font-size:13px;color:var(--text-muted)}
+  .social-btn{
+    flex-shrink:0;
+    display:inline-flex;align-items:center;gap:8px;
+    color:#fff;padding:12px 22px;
+    border-radius:26px;font-size:14px;font-weight:700;
+    letter-spacing:.3px;text-decoration:none;
+    transition:all .25s;white-space:nowrap;
+  }
+  .social-btn:hover{transform:translateY(-2px)}
+  @media(max-width:500px){
+    .social-card{flex-wrap:wrap;gap:12px;padding:16px}
+    .social-text{flex:1 1 calc(100% - 58px - 12px)}
+    .social-name{white-space:normal;font-size:16px}
+    .social-btn{width:100%;justify-content:center;padding:13px 16px}
+    .social-icon{width:52px;height:52px}
   }
 
   /* FOOTER */
@@ -619,34 +673,18 @@
 
 
 <!-- INSTAGRAM SECTION -->
-<section style="padding:40px 24px 16px;position:relative;z-index:1">
-  <div style="max-width:600px;margin:0 auto">
-    <div style="background:var(--card);border-radius:var(--radius);padding:22px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;transition:all .3s;box-shadow:0 0 0 1px rgba(214,90,142,.25),inset 0 0 40px rgba(220,39,67,.04)"
-         onmouseover="this.style.boxShadow='0 0 0 1px rgba(220,39,67,.6),0 16px 48px rgba(220,39,67,.18),inset 0 0 40px rgba(220,39,67,.06)'"
-         onmouseout="this.style.boxShadow='0 0 0 1px rgba(214,90,142,.25),inset 0 0 40px rgba(220,39,67,.04)'">
-      <!-- Icon -->
-      <div style="flex-shrink:0;width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(220,39,67,.4)">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/>
-        </svg>
+<section class="social-section social-section--first">
+  <div class="social-wrap">
+    <div class="social-card" style="--glow:rgba(220,39,67,.25);--glow-hover:rgba(220,39,67,.6);--glow-shadow:rgba(220,39,67,.18)">
+      <div class="social-icon" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);box-shadow:0 4px 18px rgba(220,39,67,.4)">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg>
       </div>
-      <!-- Text -->
-      <div style="flex:1;min-width:140px">
-        <div style="font-size:18px;font-weight:800;letter-spacing:-.2px;margin-bottom:3px">Instagram</div>
-        <div style="font-size:13px;color:var(--text-muted)">@locura.party.dresden</div>
+      <div class="social-text">
+        <div class="social-name">Instagram</div>
+        <div class="social-handle">@locura.party.dresden</div>
       </div>
-      <!-- Button -->
-      <a href="https://www.instagram.com/locura.party.dresden/" target="_blank" rel="noopener"
-         style="flex-shrink:0;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);color:#fff;padding:12px 24px;border-radius:26px;font-size:14px;font-weight:700;letter-spacing:.3px;text-decoration:none;box-shadow:0 0 24px rgba(220,39,67,.3);transition:all .25s"
-         onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px rgba(220,39,67,.55)'"
-         onmouseout="this.style.transform='';this.style.boxShadow='0 0 24px rgba(220,39,67,.3)'">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-          <circle cx="12" cy="12" r="4"/>
-          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-        </svg>
+      <a href="https://www.instagram.com/locura.party.dresden/" target="_blank" rel="noopener" class="social-btn" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);box-shadow:0 0 24px rgba(220,39,67,.3)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         Jetzt folgen
       </a>
     </div>
@@ -654,7 +692,59 @@
 </section>
 
 <!-- TIKTOK SECTION -->
-<section style="padding:16px 24px 16px;position:relative;z-index:1">
+<section class="social-section">
+  <div class="social-wrap">
+    <div class="social-card" style="--glow:rgba(105,201,208,.2);--glow-hover:rgba(105,201,208,.6);--glow-shadow:rgba(238,29,82,.15)">
+      <div class="social-icon" style="background:#000;box-shadow:0 4px 18px rgba(238,29,82,.35),0 0 0 1px rgba(105,201,208,.3)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+      </div>
+      <div class="social-text">
+        <div class="social-name">TikTok</div>
+        <div class="social-handle">@locurapartydresden</div>
+      </div>
+      <a href="https://www.tiktok.com/@locurapartydresden" target="_blank" rel="noopener" class="social-btn" style="background:#000;border:1.5px solid rgba(105,201,208,.5);box-shadow:0 0 24px rgba(238,29,82,.25)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+        Jetzt folgen
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- APP SECTION -->
+<section class="social-section">
+  <div class="social-wrap">
+    <div class="social-card" style="--glow:rgba(124,58,237,.2);--glow-hover:rgba(124,58,237,.6);--glow-shadow:rgba(124,58,237,.15)">
+      <div class="social-icon" style="overflow:hidden;padding:0;box-shadow:0 4px 18px rgba(124,58,237,.4)"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4QBMRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAABAKADAAQAAAABAAAABAAAAAAD/7QA4UGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAAA4QklNBCUAAAAAABDUHYzZjwCyBOmACZjs+EJ+/+ENJWh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNy4yLWMwMDAgNzkuMWI2NWE3OWI0LCAyMDIyLzA2LzEzLTIyOjAxOjAxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjQuMCAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NzBENTkzM0QxRkI1MTFFREE3OERCOUQ4NzI0M0Y5MDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NzBENTkzM0UxRkI1MTFFREE3OERCOUQ4NzI0M0Y5MDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo3MEQ1OTMzQjFGQjUxMUVEQTc4REI5RDg3MjQzRjkwOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo3MEQ1OTMzQzFGQjUxMUVEQTc4REI5RDg3MjQzRjkwOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/bAEMAAgICAgIBAgICAgICAgMDBgQDAwMDBwUFBAYIBwgICAcICAkKCwkJCQoICAoMCgsLDAsLDg4QDQ4RDgsLEP/bAEMBAgICAwMDBgQEBhAJBwkQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEP/AABEIBAAEAAMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A" alt="Locura Party App" style="width:100%;height:100%;object-fit:cover"></div>
+      <div class="social-text">
+        <div class="social-name">Locura Party App</div>
+        <div class="social-handle">Bekomme alle News als erstes!</div>
+      </div>
+      <a href="https://apps.apple.com/de/app/locura-party/id6760429244" target="_blank" rel="noopener" class="social-btn" style="background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 0 24px rgba(124,58,237,.3)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Im App Store
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- WHATSAPP SECTION -->
+<section class="social-section social-section--last">
+  <div class="social-wrap">
+    <div class="social-card" style="--glow:rgba(37,211,102,.2);--glow-hover:rgba(37,211,102,.6);--glow-shadow:rgba(37,211,102,.15)">
+      <div class="social-icon" style="background:linear-gradient(135deg,#25d366,#128c7e);box-shadow:0 4px 18px rgba(37,211,102,.4)">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      </div>
+      <div class="social-text">
+        <div class="social-name">Hier geht's zu unserem WhatsApp Kanal</div>
+        <div class="social-handle">Alle Infos &amp; Updates direkt</div>
+      </div>
+      <a href="https://chat.whatsapp.com/JWRtXh8BGon0hbaSv7vKNJ?mode=gi_t" target="_blank" rel="noopener" class="social-btn" style="background:linear-gradient(135deg,#25d366,#128c7e);box-shadow:0 0 24px rgba(37,211,102,.3)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        Jetzt beitreten
+      </a>
+    </div>
+  </div>
+</section>
   <div style="max-width:600px;margin:0 auto">
     <div style="background:var(--card);border-radius:var(--radius);padding:22px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;transition:all .3s;box-shadow:0 0 0 1px rgba(105,201,208,.2),inset 0 0 40px rgba(238,29,82,.03)"
          onmouseover="this.style.boxShadow='0 0 0 1px rgba(105,201,208,.6),0 16px 48px rgba(238,29,82,.15),inset 0 0 40px rgba(238,29,82,.05)'"
