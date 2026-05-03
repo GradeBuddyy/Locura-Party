@@ -1249,10 +1249,38 @@ function downloadMuttizettel(event){
   const filename='LOCURA-Muttizettel.pdf';
   try{
     const blob=base64ToBlob(MUTTIZETTEL_PDF_BASE64,'application/pdf');
-    const url=URL.createObjectURL(blob);
-    triggerDownload(url,filename);
-    setTimeout(()=>URL.revokeObjectURL(url),1200);
-    toast('Download startet','success');
+    // iOS Safari ignoriert das download-Attribut bei Blob-URLs.
+    // Auf mobilen Geräten öffnen wir die PDF als Data-URL in einem neuen Tab –
+    // das löst den nativen iOS-Teilen/Speichern-Dialog aus.
+    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+    const isAndroid=/Android/i.test(navigator.userAgent);
+    if(isIOS){
+      const reader=new FileReader();
+      reader.onloadend=function(){
+        const dataUrl=reader.result;
+        const w=window.open('','_blank');
+        if(w){
+          w.document.write(
+            '<html><head><title>'+filename+'</title></head><body style="margin:0">'+
+            '<p style="font-family:sans-serif;padding:16px;color:#555">Zum Speichern: Teilen-Symbol antippen → <b>In Dateien sichern</b> oder <b>Als PDF speichern</b></p>'+
+            '<iframe src="'+dataUrl+'" width="100%" height="90%" style="border:none"></iframe>'+
+            '</body></html>'
+          );
+          w.document.close();
+        }else{
+          // Popup geblockt – direkt als Data-URL navigieren
+          window.location.href=dataUrl;
+        }
+      };
+      reader.readAsDataURL(blob);
+      toast('PDF öffnet sich – dann speichern','success');
+    }else{
+      // Desktop & Android: normaler Blob-Download
+      const url=URL.createObjectURL(blob);
+      triggerDownload(url,filename);
+      setTimeout(()=>URL.revokeObjectURL(url),1200);
+      toast('Download startet','success');
+    }
   }catch(err){
     toast('Download konnte nicht gestartet werden','error');
   }
