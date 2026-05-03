@@ -401,10 +401,35 @@
     display:flex;
     align-items:center;
     gap:16px;
-    transition:all .3s;
-    box-shadow:0 0 0 1px var(--glow,rgba(255,255,255,.1)),inset 0 0 40px transparent;
+    transition:box-shadow .35s ease, transform .25s ease;
+    position:relative;
+    box-shadow:
+      0 0 0 1.5px var(--glow, rgba(255,255,255,.08)),
+      0 4px 20px rgba(0,0,0,.18);
   }
-  .social-card:hover{box-shadow:0 0 0 1px var(--glow-hover,rgba(255,255,255,.3)),0 16px 48px var(--glow-shadow,rgba(0,0,0,.1)),inset 0 0 40px var(--glow-shadow,rgba(0,0,0,.05))}
+  .social-card::after{
+    content:'';
+    position:absolute;
+    inset:-1.5px;
+    border-radius:calc(var(--radius) + 1.5px);
+    background:linear-gradient(135deg, var(--border-a, rgba(255,255,255,.12)), var(--border-b, rgba(255,255,255,.04)) 50%, var(--border-a, rgba(255,255,255,.08)));
+    -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    pointer-events:none;
+    transition:opacity .35s ease;
+    padding:1.5px;
+    opacity:.8;
+  }
+  .social-card:hover{
+    box-shadow:
+      0 0 0 1.5px var(--glow-hover, rgba(255,255,255,.25)),
+      0 8px 32px var(--glow-shadow, rgba(0,0,0,.12)),
+      0 0 40px var(--glow-outer, rgba(255,255,255,.04));
+    transform:translateY(-2px);
+  }
+  .social-card:hover::after{ opacity:1; }
   .social-icon{
     flex-shrink:0;
     width:58px;height:58px;
@@ -427,6 +452,8 @@
   @media(max-width:600px){
     .social-section{padding-left:14px;padding-right:14px}
     .social-card{flex-wrap:wrap;gap:10px;padding:16px;border-radius:20px}
+    .social-card::after{border-radius:21.5px}
+    .social-card:hover{transform:none}
     .social-text{flex:1 1 calc(100% - 56px - 10px);min-width:0}
     .social-name{font-size:15px;overflow-wrap:break-word;word-break:break-word}
     .social-handle{font-size:12px}
@@ -440,7 +467,7 @@
   .footer-links{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
   .footer-links a{font-size:13px;color:var(--text-muted);transition:color .2s}
   .footer-links a:hover{color:var(--text)}
-  .footer-copy{font-size:14px;color:#aaaacc !important;-webkit-text-fill-color:#aaaacc !important;margin-top:16px;padding-bottom:8px;font-weight:500}
+  .footer-copy{font-size:14px;color:#aaaacc;margin-top:16px;padding-bottom:env(safe-area-inset-bottom, 8px);padding-bottom:8px;font-weight:500;display:block;visibility:visible;opacity:1}
   .footer-stagedates{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;font-size:13px;color:var(--text-muted)}
   .footer-stagedates a{color:#a78bfa;font-weight:600}
 
@@ -685,7 +712,7 @@
 <!-- INSTAGRAM SECTION -->
 <section class="social-section social-section--first">
   <div class="social-wrap">
-    <div class="social-card" style="--glow:rgba(220,39,67,.25);--glow-hover:rgba(220,39,67,.6);--glow-shadow:rgba(220,39,67,.18)">
+    <div class="social-card" style="--glow:rgba(220,39,67,.3);--glow-hover:rgba(220,39,67,.7);--glow-shadow:rgba(220,39,67,.2);--glow-outer:rgba(220,39,67,.06);--border-a:rgba(240,148,51,.45);--border-b:rgba(188,24,136,.2)">
       <div class="social-icon" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);box-shadow:0 4px 18px rgba(220,39,67,.4)">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff" stroke="none"/></svg>
       </div>
@@ -704,7 +731,7 @@
 <!-- TIKTOK SECTION -->
 <section class="social-section">
   <div class="social-wrap">
-    <div class="social-card" style="--glow:rgba(105,201,208,.2);--glow-hover:rgba(105,201,208,.6);--glow-shadow:rgba(238,29,82,.15)">
+    <div class="social-card" style="--glow:rgba(105,201,208,.25);--glow-hover:rgba(105,201,208,.65);--glow-shadow:rgba(105,201,208,.15);--glow-outer:rgba(105,201,208,.06);--border-a:rgba(105,201,208,.5);--border-b:rgba(238,29,82,.25)">
       <div class="social-icon" style="background:#000;box-shadow:0 4px 18px rgba(238,29,82,.35),0 0 0 1px rgba(105,201,208,.3)">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
       </div>
@@ -723,7 +750,7 @@
 <!-- APP SECTION -->
 <section class="social-section">
   <div class="social-wrap">
-    <div class="social-card" style="--glow:rgba(124,58,237,.2);--glow-hover:rgba(124,58,237,.6);--glow-shadow:rgba(124,58,237,.15)">
+    <div class="social-card" style="--glow:rgba(124,58,237,.3);--glow-hover:rgba(124,58,237,.7);--glow-shadow:rgba(124,58,237,.18);--glow-outer:rgba(124,58,237,.06);--border-a:rgba(167,139,250,.5);--border-b:rgba(236,72,153,.2)">
       <div class="social-icon" style="overflow:hidden;padding:0;box-shadow:0 4px 18px rgba(124,58,237,.4)"><img src="data:image/jpeg;base64,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" alt="Locura Party App" style="width:100%;height:100%;object-fit:cover"></div>
       <div class="social-text">
         <div class="social-name">Locura Party App</div>
@@ -740,7 +767,7 @@
 <!-- WHATSAPP SECTION -->
 <section class="social-section social-section--last">
   <div class="social-wrap">
-    <div class="social-card" style="--glow:rgba(37,211,102,.2);--glow-hover:rgba(37,211,102,.6);--glow-shadow:rgba(37,211,102,.15)">
+    <div class="social-card" style="--glow:rgba(37,211,102,.28);--glow-hover:rgba(37,211,102,.65);--glow-shadow:rgba(37,211,102,.16);--glow-outer:rgba(37,211,102,.06);--border-a:rgba(37,211,102,.5);--border-b:rgba(18,140,126,.25)">
       <div class="social-icon" style="background:linear-gradient(135deg,#25d366,#128c7e);box-shadow:0 4px 18px rgba(37,211,102,.4)">
         <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
       </div>
@@ -826,12 +853,14 @@ function save(){
 // ===================== INIT =====================
 function applySettings(){
   const s = settings;
-  ['partyName','heroSub','statAttendees','statEvents','statRating','logoText','footerCopy'].forEach(k=>{
+  ['partyName','heroSub','statAttendees','statEvents','statRating','logoText'].forEach(k=>{
     const el = document.getElementById(k);
     if(el) el.textContent = s[k]||DEFAULT_SETTINGS[k];
   });
   document.getElementById('heroTitle').innerHTML = (s.heroTitle||DEFAULT_SETTINGS.heroTitle)+'<br><span id="heroTitleAccent">'+s.partyName+'</span>';
   document.getElementById('footerLogo').textContent = s.partyName;
+  const fcEl = document.getElementById('footerCopy');
+  if(fcEl){ const fc = (s.footerCopy||DEFAULT_SETTINGS.footerCopy||'© 2026 Locura Party – Alle Rechte vorbehalten'); if(fc) fcEl.textContent = fc; }
   document.title = s.partyName + ' — Party';
   if(s.logoImg){
     const inner = document.getElementById('logoInner');
