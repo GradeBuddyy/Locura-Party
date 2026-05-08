@@ -594,8 +594,7 @@
 <section id="hero">
   <div class="hero-glow"></div>
   <div id="logoWrap" style="margin:0 auto 36px;display:flex;align-items:center;justify-content:center;background:transparent">
-    <canvas id="logoCanvas" width="316" height="345"
-      style="width:320px;height:auto;display:block;margin:0 auto;image-rendering:crisp-edges"></canvas>
+    <canvas id="logoCanvas" style="width:320px;height:auto;display:block;margin:0 auto"></canvas>
   </div>
   <script>
   (function(){
@@ -603,13 +602,17 @@
     var imgs=[];
     var loaded=0;
     var canvas=document.getElementById('logoCanvas');
+    var dpr=window.devicePixelRatio||1;
+    canvas.width=Math.round(316*dpr);
+    canvas.height=Math.round(345*dpr);
     var ctx=canvas.getContext('2d');
+    ctx.scale(dpr,dpr);
     ctx.imageSmoothingEnabled=true;
     ctx.imageSmoothingQuality='high';
     var cur=0;
-    var fps=15;
+    var fps=20.25;
     var last=0;
-    function draw(idx){ctx.clearRect(0,0,canvas.width,canvas.height);if(imgs[idx]&&imgs[idx].complete)ctx.drawImage(imgs[idx],0,0);}
+    function draw(idx){ctx.clearRect(0,0,316,345);if(imgs[idx]&&imgs[idx].complete)ctx.drawImage(imgs[idx],0,0,316,345);}
     function tick(t){requestAnimationFrame(tick);if(t-last<1000/fps)return;last=t;draw(cur);cur=(cur+1)%imgs.length;}
     var count=0;
     frames.forEach(function(b,i){var im=new Image();im.onload=function(){count++;if(count===frames.length)requestAnimationFrame(tick);};im.src='data:image/webp;base64,'+b;imgs.push(im);});
