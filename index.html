@@ -552,61 +552,24 @@
 <body>
 <!-- Background Music -->
 <audio id="bgMusic" loop preload="auto">
-  <source src="../22.05/backround music.mov" type="video/quicktime">
-  <source src="../22.05/backround music.mov" type="audio/mp4">
+  <source src="../22.05/backround%20music.mov" type="video/quicktime">
+  <source src="../22.05/backround%20music.mov" type="audio/mp4">
 </audio>
-<!-- Music Toggle Button -->
-<button id="musicToggle" onclick="toggleMusic()" title="Musik ein/aus"
-  style="position:fixed;bottom:24px;right:24px;z-index:9999;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(167,139,250,.4);background:rgba(18,18,28,.85);backdrop-filter:blur(12px);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#a78bfa;font-size:20px;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .25s"
-  onmouseover="this.style.borderColor='rgba(236,72,153,.7)';this.style.color='#ec4899'"
-  onmouseout="this.style.borderColor='rgba(167,139,250,.4)';this.style.color='#a78bfa'">
-  🔇
-</button>
 <script>
-  var _musicPlaying = false;
-  var _musicStarted = false;
-  var _audio = document.getElementById('bgMusic');
-  var _btn = document.getElementById('musicToggle');
-
-  function startMusicOnInteraction() {
-    if (_musicStarted) return;
-    _musicStarted = true;
-    _audio.volume = 0.35;
-    _audio.play().then(function() {
-      _musicPlaying = true;
-      _btn.textContent = '🔊';
-    }).catch(function() {
-      _musicPlaying = false;
-    });
+  (function() {
+    var audio = document.getElementById('bgMusic');
+    audio.volume = 0.35;
+    function tryPlay() {
+      audio.play().catch(function() {});
+    }
+    tryPlay();
     ['click','scroll','keydown','touchstart'].forEach(function(e) {
-      document.removeEventListener(e, startMusicOnInteraction);
+      document.addEventListener(e, function handler() {
+        tryPlay();
+        document.removeEventListener(e, handler);
+      }, { passive: true });
     });
-  }
-
-  function toggleMusic() {
-    if (!_musicStarted) {
-      _musicStarted = true;
-      _audio.volume = 0.35;
-      _audio.play().then(function() {
-        _musicPlaying = true;
-        _btn.textContent = '🔊';
-      });
-      return;
-    }
-    if (_musicPlaying) {
-      _audio.pause();
-      _musicPlaying = false;
-      _btn.textContent = '🔇';
-    } else {
-      _audio.play();
-      _musicPlaying = true;
-      _btn.textContent = '🔊';
-    }
-  }
-
-  ['click','scroll','keydown','touchstart'].forEach(function(e) {
-    document.addEventListener(e, startMusicOnInteraction, { once: true, passive: true });
-  });
+  })();
 </script>
 <div id="bg-fixed"></div>
 <div id="bg-overlay"></div>
@@ -705,7 +668,6 @@
           style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;padding:15px;border-radius:30px;font-size:16px;font-weight:700;letter-spacing:.3px;margin-bottom:12px;cursor:pointer;text-decoration:none;box-shadow:0 0 30px rgba(124,58,237,.35);transition:all .25s"
           onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 40px rgba(124,58,237,.55)'"
           onmouseout="this.style.transform='';this.style.boxShadow='0 0 30px rgba(124,58,237,.35)'">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 9a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a2 2 0 0 0 0 4v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a2 2 0 0 0 0-4V9z"/></svg>
           🎟️ Hier Tickets kaufen!
         </a>
         <!-- Maps Button -->
