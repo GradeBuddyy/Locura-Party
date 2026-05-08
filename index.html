@@ -558,16 +558,18 @@
   (function() {
     var audio = document.getElementById('bgMusic');
     audio.volume = 0.35;
-    function tryPlay() {
-      audio.play().catch(function() {});
+    var started = false;
+    function start() {
+      if (started) return;
+      started = true;
+      audio.play().catch(function(){});
     }
-    tryPlay();
-    ['click','scroll','keydown','touchstart'].forEach(function(e) {
-      document.addEventListener(e, function handler() {
-        tryPlay();
-        document.removeEventListener(e, handler);
-      }, { passive: true });
-    });
+    // Sofortversuch (klappt auf file://)
+    audio.play().catch(function(){});
+    // Capture-Phase: fängt Klicks ab bevor stopPropagation greift
+    window.addEventListener('click', start, { capture: true, once: true });
+    window.addEventListener('touchstart', start, { capture: true, once: true });
+    window.addEventListener('keydown', start, { capture: true, once: true });
   })();
 </script>
 <div id="bg-fixed"></div>
