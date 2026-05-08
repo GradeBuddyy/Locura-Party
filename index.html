@@ -550,6 +550,64 @@
 </style>
 </head>
 <body>
+<!-- Background Music -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="../22.05/backround music.mov" type="video/quicktime">
+  <source src="../22.05/backround music.mov" type="audio/mp4">
+</audio>
+<!-- Music Toggle Button -->
+<button id="musicToggle" onclick="toggleMusic()" title="Musik ein/aus"
+  style="position:fixed;bottom:24px;right:24px;z-index:9999;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(167,139,250,.4);background:rgba(18,18,28,.85);backdrop-filter:blur(12px);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#a78bfa;font-size:20px;box-shadow:0 4px 20px rgba(0,0,0,.4);transition:all .25s"
+  onmouseover="this.style.borderColor='rgba(236,72,153,.7)';this.style.color='#ec4899'"
+  onmouseout="this.style.borderColor='rgba(167,139,250,.4)';this.style.color='#a78bfa'">
+  🔇
+</button>
+<script>
+  var _musicPlaying = false;
+  var _musicStarted = false;
+  var _audio = document.getElementById('bgMusic');
+  var _btn = document.getElementById('musicToggle');
+
+  function startMusicOnInteraction() {
+    if (_musicStarted) return;
+    _musicStarted = true;
+    _audio.volume = 0.35;
+    _audio.play().then(function() {
+      _musicPlaying = true;
+      _btn.textContent = '🔊';
+    }).catch(function() {
+      _musicPlaying = false;
+    });
+    ['click','scroll','keydown','touchstart'].forEach(function(e) {
+      document.removeEventListener(e, startMusicOnInteraction);
+    });
+  }
+
+  function toggleMusic() {
+    if (!_musicStarted) {
+      _musicStarted = true;
+      _audio.volume = 0.35;
+      _audio.play().then(function() {
+        _musicPlaying = true;
+        _btn.textContent = '🔊';
+      });
+      return;
+    }
+    if (_musicPlaying) {
+      _audio.pause();
+      _musicPlaying = false;
+      _btn.textContent = '🔇';
+    } else {
+      _audio.play();
+      _musicPlaying = true;
+      _btn.textContent = '🔊';
+    }
+  }
+
+  ['click','scroll','keydown','touchstart'].forEach(function(e) {
+    document.addEventListener(e, startMusicOnInteraction, { once: true, passive: true });
+  });
+</script>
 <div id="bg-fixed"></div>
 <div id="bg-overlay"></div>
 
@@ -643,11 +701,13 @@
         <!-- Divider -->
         <div style="height:1px;background:rgba(124,58,237,.15);margin:16px 0"></div>
         <!-- Ticket Button -->
-        <div id="ticketBtn"
-          style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:rgba(124,58,237,.15);border:1.5px solid rgba(124,58,237,.35);color:#a78bfa;padding:15px;border-radius:30px;font-size:16px;font-weight:700;letter-spacing:.3px;margin-bottom:12px;cursor:default">
+        <a id="ticketBtn" href="https://stagedates.com/events/locura-arteum-dresden-20260522-9Clb9" target="_blank" rel="noopener"
+          style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;padding:15px;border-radius:30px;font-size:16px;font-weight:700;letter-spacing:.3px;margin-bottom:12px;cursor:pointer;text-decoration:none;box-shadow:0 0 30px rgba(124,58,237,.35);transition:all .25s"
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 40px rgba(124,58,237,.55)'"
+          onmouseout="this.style.transform='';this.style.boxShadow='0 0 30px rgba(124,58,237,.35)'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 9a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a2 2 0 0 0 0 4v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2a2 2 0 0 0 0-4V9z"/></svg>
-          🕐 Tickets bald verfügbar
-        </div>
+          🎟️ Hier Tickets kaufen!
+        </a>
         <!-- Maps Button -->
         <a href="https://maps.app.goo.gl/6VsELn2nMZXDkoNw5" target="_blank" rel="noopener"
           style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;padding:15px;border-radius:30px;font-size:16px;font-weight:700;letter-spacing:.3px;transition:all .25s;text-decoration:none;box-shadow:0 0 30px rgba(124,58,237,.25)"
@@ -656,75 +716,52 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           ARTEUM - Dresden
         </a>
-        <div class="event-info-grid" aria-label="Event Infos">
-          <div class="event-info-card reveal-on-scroll">
-            <button class="event-info-trigger" type="button" aria-expanded="false" onclick="toggleEventInfo(this)">
-              <span class="event-info-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M4 15v-3"/><path d="M8 18V8"/><path d="M12 16V6"/><path d="M16 20V4"/><path d="M20 14v-4"/></svg>
-              </span>
-              <span class="event-info-copy">
-                <span class="event-info-title">2 Floors!</span>
-              </span>
-              <span class="event-info-arrow">+</span>
-            </button>
-            <div class="event-info-detail">
-              <div class="event-info-detail-inner">Zwei Floors – mehr Musik, mehr Auswahl, mehr Party!</div>
+        <!-- Unified Info Panel -->
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(124,58,237,.12) 45%,rgba(236,72,153,.07));border:1px solid rgba(167,139,250,.28);border-radius:20px;overflow:hidden;margin-top:4px">
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3"/><path d="M8 18V8"/><path d="M12 16V6"/><path d="M16 20V4"/><path d="M20 14v-4"/></svg>
+            </span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">2 Floors!</div>
+              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Zwei Floors – mehr Musik, mehr Auswahl, mehr Party!</div>
             </div>
           </div>
-          <div class="event-info-card reveal-on-scroll">
-            <button class="event-info-trigger" type="button" aria-expanded="false" onclick="toggleEventInfo(this)">
-              <span class="event-info-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/><path d="M6 4 4 6"/><path d="m18 4 2 2"/></svg>
-              </span>
-              <span class="event-info-copy">
-                <span class="event-info-title">Abendkasse</span>
-              </span>
-              <span class="event-info-arrow">+</span>
-            </button>
-            <div class="event-info-detail">
-              <div class="event-info-detail-inner">Die Abendkasse öffnet ab 22:00 Uhr. Tickets gibt es auch direkt vor Ort.</div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/><path d="M6 4 4 6"/><path d="m18 4 2 2"/></svg>
+            </span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">Abendkasse</div>
+              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Die Abendkasse öffnet ab 22:00 Uhr. Tickets gibt es auch direkt vor Ort.</div>
             </div>
           </div>
-          <div class="event-info-card reveal-on-scroll">
-            <button class="event-info-trigger" type="button" aria-expanded="false" onclick="toggleEventInfo(this)">
-              <span class="event-info-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>
-              </span>
-              <span class="event-info-copy">
-                <span class="event-info-title">EC-Kartenzahlung</span>
-              </span>
-              <span class="event-info-arrow">+</span>
-            </button>
-            <div class="event-info-detail">
-              <div class="event-info-detail-inner">EC-Kartenzahlung wird akzeptiert – bequem & bargeldlos.</div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>
+            </span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">EC-Kartenzahlung</div>
+              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">EC-Kartenzahlung wird akzeptiert – bequem &amp; bargeldlos.</div>
             </div>
           </div>
-          <div class="event-info-card reveal-on-scroll">
-            <button class="event-info-trigger" type="button" aria-expanded="false" onclick="toggleEventInfo(this)">
-              <span class="event-info-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M3 9a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a2 2 0 0 0 0 4v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a2 2 0 0 0 0-4V9z"/><path d="M12 8v8"/></svg>
-              </span>
-              <span class="event-info-copy">
-                <span class="event-info-title">Eintritt 10€</span>
-              </span>
-              <span class="event-info-arrow">+</span>
-            </button>
-            <div class="event-info-detail">
-              <div class="event-info-detail-inner">Eintritt nur 10 € – ein unvergesslicher Abend wartet auf dich!</div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a2 2 0 0 0 0 4v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a2 2 0 0 0 0-4V9z"/><path d="M12 8v8"/></svg>
+            </span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">Eintritt 10€</div>
+              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Eintritt nur 10 € – ein unvergesslicher Abend wartet auf dich!</div>
             </div>
           </div>
-          <div class="event-info-card wide reveal-on-scroll">
-            <button class="event-info-trigger" type="button" aria-expanded="false" onclick="toggleEventInfo(this)">
-              <span class="event-info-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8 14h8"/><path d="M8 17h5"/></svg>
-              </span>
-              <span class="event-info-copy">
-                <span class="event-info-title">P16 - mit Muttizettel</span>
-              </span>
-              <span class="event-info-arrow">+</span>
-            </button>
-            <div class="event-info-detail">
-              <div class="event-info-detail-inner">Einlass ab 16 nur mit gültigem Muttizettel - ausschließlich unser offizieller Vordruck, Kopie des Ausweises eines Erziehungsberechtigten und eigenem gültigen Ausweis.<br><button class="info-download-btn" type="button" onclick="downloadMuttizettel(event)">Muttizettel herunterladen</button></div>
+          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px">
+            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8 14h8"/><path d="M8 17h5"/></svg>
+            </span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">P16 - mit Muttizettel</div>
+              <div style="font-size:13px;color:#b0b0cc;line-height:1.5;margin-bottom:10px">Einlass ab 16 nur mit gültigem Muttizettel – ausschließlich unser offizieller Vordruck, Kopie des Ausweises eines Erziehungsberechtigten und eigenem gültigen Ausweis.</div>
+              <button class="info-download-btn" type="button" onclick="downloadMuttizettel(event)">Muttizettel herunterladen</button>
             </div>
           </div>
         </div>
