@@ -594,7 +594,7 @@
 <section id="hero">
   <div class="hero-glow"></div>
   <div id="logoWrap" style="margin:0 auto 36px;display:flex;align-items:center;justify-content:center;background:transparent">
-    <canvas id="logoCanvas" style="width:320px;height:auto;display:block;margin:0 auto"></canvas>
+    <canvas id="logoCanvas" style="width:320px;height:auto;display:block;margin:0 auto;filter:blur(0.4px)"></canvas>
   </div>
   <script>
   (function(){
@@ -603,8 +603,8 @@
     var loaded=0;
     var canvas=document.getElementById('logoCanvas');
     var dpr=window.devicePixelRatio||1;
-    canvas.width=Math.round(316*dpr);
-    canvas.height=Math.round(345*dpr);
+    canvas.width=Math.round(320*dpr);
+    canvas.height=Math.round(349*dpr);
     var ctx=canvas.getContext('2d');
     ctx.scale(dpr,dpr);
     ctx.imageSmoothingEnabled=true;
@@ -612,7 +612,7 @@
     var cur=0;
     var fps=20.25;
     var last=0;
-    function draw(idx){ctx.clearRect(0,0,316,345);if(imgs[idx]&&imgs[idx].complete)ctx.drawImage(imgs[idx],0,0,316,345);}
+    function draw(idx){ctx.clearRect(0,0,320,349);if(imgs[idx]&&imgs[idx].complete)ctx.drawImage(imgs[idx],0,0,320,349);}
     function tick(t){requestAnimationFrame(tick);if(t-last<1000/fps)return;last=t;draw(cur);cur=(cur+1)%imgs.length;}
     var count=0;
     frames.forEach(function(b,i){var im=new Image();im.onload=function(){count++;if(count===frames.length)requestAnimationFrame(tick);};im.src='data:image/webp;base64,'+b;imgs.push(im);});
@@ -680,55 +680,83 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           ARTEUM - Dresden
         </a>
+        <!-- Mehr Infos Toggle -->
+        <button id="mehrInfosBtn" onclick="toggleMehrInfos()" type="button"
+          style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:rgba(124,58,237,.12);border:1.5px solid rgba(167,139,250,.3);color:#a78bfa;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .25s;margin-top:16px">
+          <svg id="mehrInfosChevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .3s"><path d="M6 9l6 6 6-6"/></svg>
+          <span id="mehrInfosLabel">Mehr Infos</span>
+        </button>
         <!-- Unified Info Panel -->
-        <div style="background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(124,58,237,.12) 45%,rgba(236,72,153,.07));border:1px solid rgba(167,139,250,.28);border-radius:20px;overflow:hidden;margin-top:4px">
-          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
-            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3"/><path d="M8 18V8"/><path d="M12 16V6"/><path d="M16 20V4"/><path d="M20 14v-4"/></svg>
-            </span>
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">2 Floors!</div>
-              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Zwei Floors – mehr Musik, mehr Auswahl, mehr Party!</div>
+        <div id="mehrInfosPanel" style="overflow:hidden;max-height:0;transition:max-height .4s ease,opacity .3s ease;opacity:0">
+          <div style="background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(124,58,237,.12) 45%,rgba(236,72,153,.07));border:1px solid rgba(167,139,250,.28);border-radius:20px;overflow:hidden;margin-top:8px">
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+              <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3"/><path d="M8 18V8"/><path d="M12 16V6"/><path d="M16 20V4"/><path d="M20 14v-4"/></svg>
+              </span>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">2 Floors!</div>
+                <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Zwei Floors – mehr Musik, mehr Auswahl, mehr Party!</div>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
-            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/><path d="M6 4 4 6"/><path d="m18 4 2 2"/></svg>
-            </span>
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">Abendkasse</div>
-              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Die Abendkasse öffnet ab 22:00 Uhr. Tickets gibt es auch direkt vor Ort.</div>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+              <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/><path d="M6 4 4 6"/><path d="m18 4 2 2"/></svg>
+              </span>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">Abendkasse</div>
+                <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Die Abendkasse öffnet ab 22:00 Uhr. Tickets gibt es auch direkt vor Ort.</div>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
-            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>
-            </span>
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">EC-Kartenzahlung</div>
-              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">EC-Kartenzahlung wird akzeptiert – bequem &amp; bargeldlos.</div>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+              <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>
+              </span>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">EC-Kartenzahlung</div>
+                <div style="font-size:13px;color:#b0b0cc;line-height:1.5">EC-Kartenzahlung wird akzeptiert – bequem &amp; bargeldlos.</div>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
-            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a2 2 0 0 0 0 4v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a2 2 0 0 0 0-4V9z"/><path d="M12 8v8"/></svg>
-            </span>
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">Eintritt 10€</div>
-              <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Eintritt nur 10 € – ein unvergesslicher Abend wartet auf dich!</div>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(167,139,250,.15)">
+              <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a2 2 0 0 0 0 4v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a2 2 0 0 0 0-4V9z"/><path d="M12 8v8"/></svg>
+              </span>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">Eintritt 10€</div>
+                <div style="font-size:13px;color:#b0b0cc;line-height:1.5">Eintritt nur 10 € – ein unvergesslicher Abend wartet auf dich!</div>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px">
-            <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8 14h8"/><path d="M8 17h5"/></svg>
-            </span>
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">P16 - mit Muttizettel</div>
-              <div style="font-size:13px;color:#b0b0cc;line-height:1.5;margin-bottom:10px">Einlass ab 16 nur mit gültigem Muttizettel – ausschließlich unser offizieller Vordruck, Kopie des Ausweises eines Erziehungsberechtigten und eigenem gültigen Ausweis.</div>
-              <button class="info-download-btn" type="button" onclick="downloadMuttizettel(event)">Muttizettel herunterladen</button>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 18px">
+              <span style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.2);display:flex;align-items:center;justify-content:center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M8 14h8"/><path d="M8 17h5"/></svg>
+              </span>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#eeeef5;margin-bottom:3px">P16 - mit Muttizettel</div>
+                <div style="font-size:13px;color:#b0b0cc;line-height:1.5;margin-bottom:10px">Einlass ab 16 nur mit gültigem Muttizettel – ausschließlich unser offizieller Vordruck, Kopie des Ausweises eines Erziehungsberechtigten und eigenem gültigen Ausweis.</div>
+                <button class="info-download-btn" type="button" onclick="downloadMuttizettel(event)">Muttizettel herunterladen</button>
+              </div>
             </div>
           </div>
         </div>
+        <script>
+          var _mehrOpen = false;
+          function toggleMehrInfos() {
+            _mehrOpen = !_mehrOpen;
+            var panel = document.getElementById('mehrInfosPanel');
+            var chevron = document.getElementById('mehrInfosChevron');
+            var label = document.getElementById('mehrInfosLabel');
+            if (_mehrOpen) {
+              panel.style.maxHeight = panel.scrollHeight + 800 + 'px';
+              panel.style.opacity = '1';
+              chevron.style.transform = 'rotate(180deg)';
+              label.textContent = 'Weniger Infos';
+            } else {
+              panel.style.maxHeight = '0';
+              panel.style.opacity = '0';
+              chevron.style.transform = 'rotate(0deg)';
+              label.textContent = 'Mehr Infos';
+            }
+          }
+        </script>
       </div>
     </div>
   </div>
