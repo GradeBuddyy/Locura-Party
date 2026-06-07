@@ -582,6 +582,10 @@
   window.addEventListener('click',start,{capture:true,once:true});
   window.addEventListener('touchstart',start,{capture:true,once:true});
   window.addEventListener('keydown',start,{capture:true,once:true});
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){ a.pause(); }
+    else if(started){ a.play().catch(function(){}); }
+  });
 })();
 </script>
 <div id="bg-fixed"></div>
