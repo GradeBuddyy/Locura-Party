@@ -667,6 +667,18 @@ video::-internal-media-controls-overflow-button{
 #next-event-2::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30vh;z-index:-1;pointer-events:none;
   background:linear-gradient(to bottom, rgba(11,4,24,0) 0%, #0b0418 100%)}
 </style>
+<!-- Website-Icon (Google-Suche, Browser-Tab, Home-Bildschirm) -->
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/icons/icon-48.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/icons/icon-96.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+<meta name="theme-color" content="#0d0611">
+<!-- Sofort sichtbare Medien vorab anfordern, damit sie parallel zum HTML laden -->
+<link rel="preload" as="image" href="assets/logo/001.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/bg/hoch/001.webp" media="(orientation: portrait)">
+<link rel="preload" as="image" href="assets/bg/quer/001.webp" media="(orientation: landscape)">
 </head>
 <body>
 
@@ -725,6 +737,15 @@ video::-internal-media-controls-overflow-button{
       var n=imgs.length,per=n>1?2*n-2:1;var k=Math.floor((t-start)/(1000/fps))%per;var idx=k<n?k:per-k;
       if(idx!==cur){
         var im=imgs[idx];
+        // Noch nicht geladen? Dann das naechstgelegene fertige Bild nehmen,
+        // damit das Logo nie leer wird waehrend die Bilder nachkommen.
+        if(!(im&&im.complete&&im.naturalWidth)){
+          for(var d=1;d<n;d++){
+            var a=imgs[idx-d],b2=imgs[idx+d];
+            if(a&&a.complete&&a.naturalWidth){im=a;break;}
+            if(b2&&b2.complete&&b2.naturalWidth){im=b2;break;}
+          }
+        }
         if(im&&im.complete&&im.naturalWidth){
           cur=idx;
           ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -732,12 +753,34 @@ video::-internal-media-controls-overflow-button{
         }
       }
     }
-    frames.forEach(function(b){
+    // Das erste Bild zuerst und mit Vorrang - das Logo steht ganz oben und
+    // muss sofort da sein. Die Animation laeuft an, sobald es steht; die
+    // uebrigen Bilder kommen nach und werden dann einfach mitbenutzt.
+    var gestartet=false;
+    function anlaufen(){
+      if(gestartet)return;
+      gestartet=true;
+      requestAnimationFrame(tick);
+    }
+    frames.forEach(function(b,k){
       var im=new Image();
-      im.onload=function(){loaded++;if(loaded===frames.length)requestAnimationFrame(tick);};
+      im.decoding='async';
+      if(k===0){ if('fetchPriority' in im) im.fetchPriority='high'; }
+      im.onload=function(){
+        loaded++;
+        if(k===0){
+          // sofort als Standbild zeigen, noch bevor der Rest da ist
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          ctx.drawImage(im,0,0,canvas.width,canvas.height);
+          anlaufen();
+        }
+      };
+      im.onerror=function(){loaded++;};
       im.src=b;
       imgs.push(im);
     });
+    // Falls das erste Bild aus dem Cache kommt und onload schon durch ist
+    if(imgs[0]&&imgs[0].complete&&imgs[0].naturalWidth)anlaufen();
   })();
   </script>
   <div class="hero-tag"><span class="live-dot"></span>N&auml;chstes Event bald</div>
@@ -1700,21 +1743,35 @@ document.addEventListener('DOMContentLoaded',()=>{
     var my=++gen, list=window.LOCURA_SETS[want];
     frames=new Array(list.length);
     var total=still?1:list.length;
-    var next=0,active=0;
+    // Erstes Bild zuerst und mit Vorrang (Hero ist sofort sichtbar), danach
+    // immer das Bild holen, das an der aktuellen Scroll-Position gebraucht wird.
+    var offen=[]; for(var z=0;z<total;z++)offen.push(z);
+    var active=0, erstes=true;
+    function naechstes(){
+      if(erstes){erstes=false; var p0=offen.indexOf(0); if(p0>=0)return offen.splice(p0,1)[0];}
+      var soll=Math.round(Math.min(1,Math.max(0,sp))*(total-1));
+      var bi=0,bd=1e9;
+      for(var k=0;k<offen.length;k++){
+        var d=Math.abs(offen[k]-soll);
+        if(d<bd){bd=d;bi=k;}
+      }
+      return offen.splice(bi,1)[0];
+    }
     (function pump(){
       if(my!==gen)return;
-      while(active<6&&next<total){
+      while(active<6&&offen.length){
         (function(i){
           active++;
           var im=new Image(); im.decoding='async';
+          if(i===0&&'fetchPriority' in im)im.fetchPriority='high';
           im.onload=im.onerror=function(){
             if(my!==gen)return;
             if(im.naturalWidth)frames[i]=im;
-            active--; if(i===0){cur=-1;draw(true);}
+            active--; cur=-1; draw(true);
             pump();
           };
           im.src=list[i];
-        })(next++);
+        })(naechstes());
       }
     })();
   }
@@ -1846,21 +1903,34 @@ document.addEventListener('DOMContentLoaded',()=>{
     setName=want;
     var my=++gen, list=window.LOCURA_BAND[want];
     frames=new Array(list.length);
-    var next=0,active=0;
+    // Nach Scroll-Position priorisieren: immer zuerst das Bild holen, das
+    // gerade gebraucht wird. Sonst laedt stumpf von vorn und man scrollt
+    // an den fertigen Bildern vorbei ins Leere.
+    var offen=[]; for(var z=0;z<list.length;z++)offen.push(z);
+    var active=0;
+    function naechstes(){
+      var soll=Math.round(Math.min(1,Math.max(0,sp))*(list.length-1));
+      var bi=0,bd=1e9;
+      for(var k=0;k<offen.length;k++){
+        var d=Math.abs(offen[k]-soll);
+        if(d<bd){bd=d;bi=k;}
+      }
+      return offen.splice(bi,1)[0];
+    }
     (function pump(){
       if(my!==gen)return;
-      while(active<6&&next<list.length){
+      while(active<6&&offen.length){
         (function(i){
           active++;
           var im=new Image(); im.decoding='async';
           im.onload=im.onerror=function(){
             if(my!==gen)return;
             if(im.naturalWidth)frames[i]=im;
-            active--; if(i===0){cur=-1;draw(true);}
+            active--; cur=-1; draw(true);
             pump();
           };
           im.src=list[i];
-        })(next++);
+        })(naechstes());
       }
     })();
   }
@@ -1996,21 +2066,34 @@ document.addEventListener('DOMContentLoaded',()=>{
     setName=want;
     var my=++gen, list=window.LOCURA_FOTO[want];
     frames=new Array(list.length);
-    var next=0,active=0;
+    // Nach Scroll-Position priorisieren: immer zuerst das Bild holen, das
+    // gerade gebraucht wird. Sonst laedt stumpf von vorn und man scrollt
+    // an den fertigen Bildern vorbei ins Leere.
+    var offen=[]; for(var z=0;z<list.length;z++)offen.push(z);
+    var active=0;
+    function naechstes(){
+      var soll=Math.round(Math.min(1,Math.max(0,sp))*(list.length-1));
+      var bi=0,bd=1e9;
+      for(var k=0;k<offen.length;k++){
+        var d=Math.abs(offen[k]-soll);
+        if(d<bd){bd=d;bi=k;}
+      }
+      return offen.splice(bi,1)[0];
+    }
     (function pump(){
       if(my!==gen)return;
-      while(active<6&&next<list.length){
+      while(active<6&&offen.length){
         (function(i){
           active++;
           var im=new Image(); im.decoding='async';
           im.onload=im.onerror=function(){
             if(my!==gen)return;
             if(im.naturalWidth)frames[i]=im;
-            active--; if(i===0){cur=-1;draw(true);}
+            active--; cur=-1; draw(true);
             pump();
           };
           im.src=list[i];
-        })(next++);
+        })(naechstes());
       }
     })();
   }
