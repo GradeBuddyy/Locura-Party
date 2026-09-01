@@ -950,25 +950,25 @@ video::-internal-media-controls-overflow-button{
     </div>
 
     <div class="bd-texts">
-      <div class="bd-step" data-bd="0.09,0.13,0.19,0.24" style="--c:#6EF351">
+      <div class="bd-step" data-bd="0.19,0.22,0.29,0.33" style="--c:#6EF351">
         <span class="bd-pill"><i></i>Gr&uuml;nes B&auml;ndchen</span>
         <h3 style="color:#6EF351">single</h3>
         <p>Du bist Single und auf Suche. Gr&uuml;n hei&szlig;t: offen f&uuml;r neue Begegnungen &ndash; wer dich anspricht, hat gute Karten.</p>
       </div>
 
-      <div class="bd-step" data-bd="0.35,0.39,0.44,0.49" style="--c:#F74347">
+      <div class="bd-step" data-bd="0.43,0.46,0.53,0.57" style="--c:#F74347">
         <span class="bd-pill"><i></i>Rotes B&auml;ndchen</span>
         <h3 style="color:#F74347">vergeben</h3>
         <p>Dein Herz ist schon weg &ndash; zum Tanzen bleibt dir nur dein Partner</p>
       </div>
 
-      <div class="bd-step" data-bd="0.60,0.64,0.73,0.78" style="--c:#E3D034">
+      <div class="bd-step" data-bd="0.66,0.70,0.77,0.81" style="--c:#E3D034">
         <span class="bd-pill"><i></i>Gelbes B&auml;ndchen</span>
         <h3 style="color:#E3D034">unsicher</h3>
         <p>Du bist dir noch nicht sicher. Gelb hei&szlig;t: vielleicht &ndash; mal schauen, was die Nacht so bringt.</p>
       </div>
 
-      <div class="bd-step" data-bd="0.85,0.90,1,1" style="--c:#ff2d78">
+      <div class="bd-step" data-bd="0.93,0.96,1,1" style="--c:#ff2d78">
         <span class="bd-pill"><i></i>Am Einlass</span>
         <h3 style="background:linear-gradient(135deg,#6EF351,#F74347 52%,#E3D034);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">such dir deine farbe</h3>
         <p>Dein B&auml;ndchen bekommst du direkt am Einlass. Zeig damit, wie du unterwegs bist &ndash; ganz ohne Worte.</p>
@@ -1891,7 +1891,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     var v=el.getAttribute('data-bd').split(',').map(parseFloat);
     return {el:el,a:v[0],b:v[1],c:v[2],d:v[3]};
   });
-  var GLOW=[[0,'rgba(110,243,81,.20)'],[0.28,'rgba(247,67,71,.20)'],[0.54,'rgba(227,208,52,.18)'],[0.82,'rgba(255,45,120,.20)']];
+  var GLOW=[[0,'rgba(110,243,81,.20)'],[0.38,'rgba(247,67,71,.20)'],[0.62,'rgba(227,208,52,.18)'],[0.85,'rgba(255,45,120,.20)']];
   var MAXDPR=3, MAXPX=6200000, EASE=0.14;
   var frames=[],setName=null,gen=0,w=0,h=0,cur=-1,p=0,sp=0,started=false,lastGlow='',lastSicht='';
 
@@ -2002,16 +2002,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   // die Fahrt fast aus, damit man den Text in Ruhe lesen kann; zwischen den
   // Baendchen wird zuegig weitergefahren.
   //   Scroll        Bild            was passiert
-  //   0.00 - 0.08   0.00 - 0.125    Anlauf
-  //   0.08 - 0.24   0.125 - 0.185   GRUEN haelt   (16% Strecke)
-  //   0.24 - 0.33   0.185 - 0.388   Wechsel
-  //   0.33 - 0.51   0.388 - 0.442   ROT haelt     (18% Strecke)
-  //   0.51 - 0.60   0.442 - 0.645   Wechsel
-  //   0.60 - 0.78   0.645 - 0.725   GELB haelt    (18% Strecke)
-  //   0.78 - 0.84   0.725 - 0.90    Wechsel
-  //   0.84 - 1.00   0.90 - 1.00     alle drei
-  var HALT=[[0,0],[0.08,0.125],[0.24,0.185],[0.33,0.388],[0.51,0.442],
-            [0.60,0.645],[0.78,0.725],[0.84,0.90],[1,1]];
+  //   0.00 - 0.06   0.00 - 0.215    Anlauf (Bild 0-21)
+  //   0.06 - 0.26   0.215 - 0.29    GRUEN haelt   (Bild 25 mittig)
+  //   0.26 - 0.35   0.29 - 0.462    Wechsel
+  //   0.35 - 0.53   0.462 - 0.532   ROT haelt     (Bild 49 mittig)
+  //   0.53 - 0.62   0.532 - 0.702   Wechsel
+  //   0.62 - 0.80   0.702 - 0.772   GELB haelt    (Bild 72 mittig)
+  //   0.80 - 0.88   0.772 - 0.958   Wechsel
+  //   0.88 - 1.00   0.958 - 1.00    alle drei (erst ab Bild 95 komplett)
+  var HALT=[[0,0],[0.06,0.215],[0.26,0.29],[0.35,0.462],[0.53,0.532],
+            [0.62,0.702],[0.80,0.772],[0.88,0.958],[1,1]];
   function kurve(x){
     if(x<=0)return 0;
     if(x>=1)return 1;
