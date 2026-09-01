@@ -238,6 +238,37 @@
   .scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);animation:bounce 2s ease-in-out infinite;color:var(--text-dim);font-size:22px}
   @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
+  /* ===== SCROLL-HINWEIS ===== */
+  .scroll-cue{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;
+              padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));
+              z-index:60;opacity:0;transition:opacity .55s ease;pointer-events:none}
+  .scroll-cue.an{opacity:1}
+  .sc-halo{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);width:230px;height:150px;border-radius:50%;
+           background:radial-gradient(ellipse,rgba(255,45,120,.32) 0%,rgba(167,139,250,.15) 45%,transparent 72%);
+           opacity:0;transition:opacity .8s ease;pointer-events:none}
+  .scroll-cue.dringend .sc-halo{opacity:1;animation:scPuls 2.2s ease-in-out infinite}
+  @keyframes scPuls{0%,100%{transform:translateX(-50%) scale(1);opacity:.55}50%{transform:translateX(-50%) scale(1.18);opacity:1}}
+  .sc-inner{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;
+            padding:9px 20px 10px;border-radius:999px;cursor:pointer;pointer-events:auto;
+            background:rgba(10,8,20,.52);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,.15);box-shadow:0 6px 28px rgba(0,0,0,.5);
+            animation:scWippe 2.6s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
+  @keyframes scWippe{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+  .sc-text{font-size:11px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;white-space:nowrap;
+           color:#fff;text-shadow:0 0 16px rgba(255,45,120,.85),0 0 6px rgba(0,0,0,.85)}
+  .scroll-cue.dringend .sc-text{text-shadow:0 0 22px rgba(255,45,120,1),0 0 8px rgba(0,0,0,.9)}
+  .sc-arrows{display:flex;flex-direction:column;align-items:center;line-height:0}
+  .sc-arrows svg{display:block;width:22px;height:11px;margin-top:-4px;
+                 filter:drop-shadow(0 0 7px rgba(255,45,120,.9));animation:scPfeil 1.7s ease-in-out infinite}
+  .sc-arrows svg:nth-child(2){animation-delay:.19s}
+  .sc-arrows svg:nth-child(3){animation-delay:.38s}
+  @keyframes scPfeil{0%,100%{opacity:.22;transform:translateY(0)}50%{opacity:1;transform:translateY(3px)}}
+  @media(max-width:380px){.sc-text{font-size:10px;letter-spacing:1.8px}}
+  @media(prefers-reduced-motion:reduce){
+    .sc-inner,.sc-arrows svg,.scroll-cue.dringend .sc-halo{animation:none!important}
+    .sc-arrows svg{opacity:1}
+  }
+
   /* ===== SECTION ===== */
   section{position:relative;z-index:1;padding:80px 24px}
   .section-header{text-align:center;margin-bottom:56px}
@@ -789,8 +820,59 @@ video::-internal-media-controls-overflow-button{
   <div class="hero-btns">
     <button class="btn-primary" onclick="document.getElementById('next-event-2').scrollIntoView({behavior:'smooth'})">&#128205; Zum n&auml;chsten Event</button>
   </div>
-  <div class="scroll-hint">&#8595;</div>
 </section>
+
+<!-- SCROLL-HINWEIS -->
+<div class="scroll-cue" id="scrollCue">
+  <span class="sc-halo"></span>
+  <button class="sc-inner" type="button" id="scrollCueBtn" aria-label="Nach unten scrollen">
+    <span class="sc-text">Nach unten scrollen</span>
+    <span class="sc-arrows" aria-hidden="true"><svg viewBox="0 0 22 11" fill="none" aria-hidden="true"><path d="M1.5 1.5 11 9.5l9.5-8" stroke="#ff2d78" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><svg viewBox="0 0 22 11" fill="none" aria-hidden="true"><path d="M1.5 1.5 11 9.5l9.5-8" stroke="#ff2d78" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><svg viewBox="0 0 22 11" fill="none" aria-hidden="true"><path d="M1.5 1.5 11 9.5l9.5-8" stroke="#ff2d78" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </button>
+</div>
+<script>
+(function(){
+  var cue=document.getElementById('scrollCue');
+  var btn=document.getElementById('scrollCueBtn');
+  if(!cue)return;
+  var txt=cue.querySelector('.sc-text');
+  function pos(){return window.scrollY||document.documentElement.scrollTop||0;}
+  function oben(){return pos()<70;}
+  function amEnde(){
+    var h=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight);
+    return (pos()+window.innerHeight)>=(h-130);
+  }
+  // Hinweis erscheint ueberall, sobald eine Weile nicht gescrollt wurde
+  var RUHE_OBEN=1400, RUHE_SONST=3500, RUHE_DRINGEND=6500;
+  var letzteY=pos(), ruheSeit=Date.now(), sichtbar=false;
+  function zeigen(){
+    if(sichtbar)return;
+    if(txt)txt.textContent=oben()?'Nach unten scrollen':'Weiter scrollen';
+    cue.classList.add('an'); sichtbar=true;
+  }
+  function verstecken(){
+    if(!sichtbar)return;
+    cue.classList.remove('an','dringend'); sichtbar=false;
+  }
+  function pruefen(){
+    var y=pos();
+    if(Math.abs(y-letzteY)>2){ letzteY=y; ruheSeit=Date.now(); verstecken(); }
+    if(amEnde()){ verstecken(); return; }
+    var ruhe=Date.now()-ruheSeit;
+    if(ruhe>(oben()?RUHE_OBEN:RUHE_SONST)){
+      zeigen();
+      if(oben()&&ruhe>RUHE_DRINGEND)cue.classList.add('dringend');
+    }
+  }
+  setInterval(pruefen,350);
+  window.addEventListener('scroll',pruefen,{passive:true});
+  window.addEventListener('resize',pruefen,{passive:true});
+  pruefen();
+  if(btn)btn.addEventListener('click',function(){
+    window.scrollBy({top:window.innerHeight*0.85,behavior:'smooth'});
+  });
+})();
+</script>
 
 <!-- TAGLINE -->
 <section id="tagline">
