@@ -1011,7 +1011,7 @@ video::-internal-media-controls-overflow-button{
 
   /* Weicher Übergang vom Sonnenuntergang (Hero/Tagline) ins Schwarze davor,
      damit die Scrub-Sektion nicht mit einer harten Kante beginnt. */
-  .sunset-fade{height:62vh;position:relative;z-index:0;pointer-events:none;
+  .sunset-fade{height:32vh;position:relative;z-index:0;pointer-events:none;
     background:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 55%, #000 86%)}
   /* Weicher Übergang am UNTEREN Ende der Scrub-Sektion: Schwarz läuft nach
      unten transparent aus, damit der violette Hintergrund des Event-Bereichs
@@ -1087,7 +1087,7 @@ video::-internal-media-controls-overflow-button{
   <script>
   (function(){
     var frames=["assets/logo/001.webp","assets/logo/002.webp","assets/logo/003.webp","assets/logo/004.webp","assets/logo/005.webp","assets/logo/006.webp","assets/logo/007.webp","assets/logo/008.webp","assets/logo/009.webp","assets/logo/010.webp","assets/logo/011.webp","assets/logo/012.webp","assets/logo/013.webp","assets/logo/014.webp","assets/logo/015.webp","assets/logo/016.webp","assets/logo/017.webp","assets/logo/018.webp","assets/logo/019.webp","assets/logo/020.webp","assets/logo/021.webp","assets/logo/022.webp","assets/logo/023.webp","assets/logo/024.webp","assets/logo/025.webp","assets/logo/026.webp","assets/logo/027.webp","assets/logo/028.webp","assets/logo/029.webp","assets/logo/030.webp","assets/logo/031.webp","assets/logo/032.webp","assets/logo/033.webp","assets/logo/034.webp","assets/logo/035.webp","assets/logo/036.webp","assets/logo/037.webp","assets/logo/038.webp","assets/logo/039.webp","assets/logo/040.webp","assets/logo/041.webp","assets/logo/042.webp","assets/logo/043.webp","assets/logo/044.webp","assets/logo/045.webp","assets/logo/046.webp","assets/logo/047.webp","assets/logo/048.webp","assets/logo/049.webp","assets/logo/050.webp","assets/logo/051.webp","assets/logo/052.webp","assets/logo/053.webp","assets/logo/054.webp","assets/logo/055.webp","assets/logo/056.webp","assets/logo/057.webp","assets/logo/058.webp","assets/logo/059.webp","assets/logo/060.webp","assets/logo/061.webp","assets/logo/062.webp","assets/logo/063.webp","assets/logo/064.webp","assets/logo/065.webp","assets/logo/066.webp","assets/logo/067.webp","assets/logo/068.webp","assets/logo/069.webp","assets/logo/070.webp","assets/logo/071.webp","assets/logo/072.webp","assets/logo/073.webp","assets/logo/074.webp","assets/logo/075.webp"];
-    var fps=15;
+    var fps=24;
     var canvas=document.getElementById("logoCanvas");
     var ctx=canvas.getContext("2d");
     var imgs=[],loaded=0,cur=-1,start=0;
@@ -1244,12 +1244,12 @@ video::-internal-media-controls-overflow-button{
   var ctx=canvas.getContext('2d',{alpha:false});
   // Zwei Frame-Sets: Querformat (Desktop) und das eigene Hochkant-Video (Handy).
   var SETS={
-    quer:{base:'assets/prizes/quer/', n:94, w:1280, h:720,  z:1.0, v:'?v=2'},
+    quer:{base:'assets/prizes/quer/', n:188, w:1280, h:720,  z:1.0, v:'?v=3'},
     hoch:{base:'assets/prizes/hoch/', n:101, w:720,  h:1280, z:1.0,
           // Scrollweg -> Frame: lange auf den sichtbaren Preisen verweilen
           // (helle Segmente), schnell durch die schwarzen Pausen dazwischen.
           // Preise: f8-29, f38-62, f73-96; schwarze Pausen: f30-37, f63-72.
-          map:[[0,0],[0.05,8],[0.33,29],[0.38,38],[0.66,62],[0.71,73],[0.98,96],[1,100]]}
+          map:[[0,0],[0.02,8],[0.30,29],[0.36,38],[0.64,62],[0.70,73],[0.98,96],[1,100]]}
   };
   var rm=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var setName=null, cfg=null, frames=[], N=0, gen=0, haveAny=false, visible=false;
