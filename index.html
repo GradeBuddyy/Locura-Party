@@ -1245,7 +1245,7 @@ video::-internal-media-controls-overflow-button{
   var ctx=canvas.getContext('2d',{alpha:false});
   // Zwei Frame-Sets: Querformat (Desktop) und das eigene Hochkant-Video (Handy).
   var SETS={
-    quer:{base:'assets/prizes/quer/', n:117, w:1280, h:720,  z:1.0},
+    quer:{base:'assets/prizes/quer/', n:94, w:1280, h:720,  z:1.0, v:'?v=2'},
     hoch:{base:'assets/prizes/hoch/', n:101, w:720,  h:1280, z:1.0,
           // Scrollweg -> Frame: lange auf den sichtbaren Preisen verweilen
           // (helle Segmente), schnell durch die schwarzen Pausen dazwischen.
@@ -1317,7 +1317,7 @@ video::-internal-media-controls-overflow-button{
         var im=new Image(); im.decoding='async';
         if(i===0&&'fetchPriority' in im)im.fetchPriority='high';
         im.onload=im.onerror=function(){ if(my!==gen)return; if(im.naturalWidth){frames[i]=im; haveAny=true;} active--; cur=-1; draw(true); pump(); };
-        im.src=cfg.base+pad(i)+'.webp';
+        im.src=cfg.base+pad(i)+'.webp'+(cfg.v||'');
       })(pick()); }
     })();
   }
