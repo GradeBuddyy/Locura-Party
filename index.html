@@ -537,6 +537,8 @@
     width:33px;height:33px;border-radius:50%;background:rgba(255,255,255,.2)}
   .lp-t-arrow{flex:0 0 auto;transition:transform .24s}
   .lp-ticket:hover .lp-t-arrow{transform:translateX(5px)}
+  .lp-t-txt{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.12;gap:2px}
+  .lp-t-txt small{font-size:11.5px;font-weight:600;letter-spacing:.2px;opacity:.92;text-transform:none}
   @media(prefers-reduced-motion:reduce){
     .lp-ticket{animation:none}.lp-ticket::after{display:none}.lp-ticket:hover{transform:none}}
 
@@ -1132,7 +1134,7 @@ video::-internal-media-controls-overflow-button{
           <path d="M13 6v2M13 11v2M13 16v2"/>
         </svg>
       </span>
-      <span>Tickets hier kaufen</span>
+      <span class="lp-t-txt"><b>Tickets hier kaufen</b><small>Vorverkauf &middot; hier auch die Lose</small></span>
       <svg class="lp-t-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M5 12h13M12 5l7 7-7 7"/>
@@ -1211,6 +1213,141 @@ video::-internal-media-controls-overflow-button{
 
 
 
+<!-- GEWINNE / PREISE SECTION -->
+<style>
+.gw{position:relative;padding:12px 0 6px;background:linear-gradient(to bottom,transparent,rgba(2,2,6,.92) 13%,rgba(2,2,6,.92) 87%,transparent)}
+.gw-wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.gw-head{text-align:center;margin-bottom:24px}
+.gw-eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#ff2d78;font-weight:800;margin:0 0 10px}
+.gw-h2{font-size:clamp(26px,5vw,44px);line-height:1.05;font-weight:900;letter-spacing:-.02em;margin:0;
+  background:linear-gradient(92deg,#fff,#ffd7e6 45%,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gw-sub{margin:12px 0 0;color:#c9c4db;font-size:15px}
+.gw-haupt-top{display:flex;justify-content:center;margin-bottom:12px}
+.gw-badge{display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,45,120,.95);color:#fff;font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  padding:8px 15px;border-radius:999px;box-shadow:0 8px 22px -6px rgba(255,45,120,.7)}
+.gw-haupt{position:relative;border-radius:24px;padding:1.5px;margin-bottom:18px;
+  background:linear-gradient(135deg,rgba(255,45,120,.45),rgba(167,139,250,.35));
+  box-shadow:0 26px 70px -32px rgba(255,45,120,.45)}
+.gw-haupt-in{position:relative;border-radius:22px;overflow:hidden;background:#000;aspect-ratio:16/9;isolation:isolate;contain:paint}
+.gw-reihe{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.gw-karte{position:relative;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:16/9;border:1px solid rgba(255,255,255,.03);isolation:isolate;contain:paint}
+.gw-cv{position:absolute;inset:0;width:100%;height:100%;display:block;mix-blend-mode:screen;transform:translateZ(0)}
+.gw-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen}
+.gw-cv,.gw-poster{-webkit-mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent),linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent),linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);mask-composite:intersect}
+.gw-haupt-in,.gw-karte{box-shadow:0 0 46px 22px rgba(2,2,6,.9)}
+.gw-tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.gw-tap:focus-visible{outline:2px solid #ff2d78;outline-offset:3px}
+.gw-hint{position:absolute;left:30%;top:52%;transform:translate(-50%,-50%);z-index:6;width:62px;height:62px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(10,7,14,.6);box-shadow:0 0 0 2px rgba(255,45,120,.9),0 0 26px rgba(255,45,120,.6),0 8px 22px rgba(0,0,0,.55);pointer-events:none;transition:opacity .35s ease}
+.gw-hint.is-hidden{opacity:0}
+.gw-hint svg{position:relative;z-index:2;width:30px;height:30px;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.95));animation:gwTap 1.8s ease-in-out infinite}
+.gw-hint-ring{position:absolute;inset:-7px;border-radius:50%;z-index:1;border:2px solid rgba(255,45,120,.85);animation:gwRing 1.8s ease-out infinite}
+@keyframes gwTap{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(4px) scale(.88)}}
+@keyframes gwRing{0%{transform:scale(.78);opacity:.9}70%{opacity:0}100%{transform:scale(1.7);opacity:0}}
+.gw-teilnahme{max-width:720px;margin:26px auto 0;padding:20px 22px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,45,120,.35)}
+.gw-teilnahme .gw-eyebrow{margin:0 0 12px}
+.gwt-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.gwt-list li{display:flex;gap:12px;align-items:flex-start;color:#e9e4f0;font-size:14px;line-height:1.5}
+.gwt-list svg{flex:none;width:18px;height:18px;margin-top:2px;color:#ff2d78}
+.gwt-list b{color:#fff;font-weight:700}
+.gw-a{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.gw.on .gw-a{opacity:1;transform:none;transition-delay:calc(var(--i,0)*.1s)}
+@media(prefers-reduced-motion:reduce){.gw-a{opacity:1;transform:none;transition:none}}
+@media(max-width:640px){.gw-reihe{grid-template-columns:1fr;gap:14px}}
+</style>
+<section id="gewinne" class="gw">
+  <div class="gw-wrap">
+    <header class="gw-head">
+      <p class="gw-eyebrow gw-a" style="--i:0">Gewinnspiel &middot; Black Friday Edition</p>
+      <h2 class="gw-h2 gw-a" style="--i:1">Das kannst du gewinnen</h2>
+      <p class="gw-sub gw-a" style="--i:2">Drei Preise &ndash; der Hauptgewinn ganz oben.</p>
+    </header>
+    <div class="gw-haupt-top gw-a" style="--i:3"><span class="gw-badge">&#128081; Hauptgewinn</span></div>
+    <div class="gw-haupt gw-a" style="--i:4">
+      <div class="gw-haupt-in gw-tap" role="button" tabindex="0" aria-label="Prize 1 aufdecken">
+        <img class="gw-poster" src="assets/prize-frames/p1/001.webp" alt="" aria-hidden="true">
+        <canvas class="gw-cv" data-dir="assets/prize-frames/p1" data-n="46" aria-hidden="true"></canvas>
+        <span class="gw-hint" aria-hidden="true"><span class="gw-hint-ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>
+      </div>
+    </div>
+    <div class="gw-reihe">
+      <div class="gw-karte gw-a gw-tap" role="button" tabindex="0" aria-label="Prize 2 aufdecken" style="--i:5">
+        <img class="gw-poster" src="assets/prize-frames/p2/001.webp" alt="" aria-hidden="true">
+        <canvas class="gw-cv" data-dir="assets/prize-frames/p2" data-n="57" aria-hidden="true"></canvas>
+        <span class="gw-hint" aria-hidden="true"><span class="gw-hint-ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>
+      </div>
+      <div class="gw-karte gw-a gw-tap" role="button" tabindex="0" aria-label="Prize 3 aufdecken" style="--i:6">
+        <img class="gw-poster" src="assets/prize-frames/p3/001.webp" alt="" aria-hidden="true">
+        <canvas class="gw-cv" data-dir="assets/prize-frames/p3" data-n="47" aria-hidden="true"></canvas>
+        <span class="gw-hint" aria-hidden="true"><span class="gw-hint-ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>
+      </div>
+    </div>
+      <div class="gw-teilnahme gw-a" style="--i:7">
+      <p class="gw-eyebrow">So nimmst du teil</p>
+      <ul class="gwt-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4V8z"/><path d="M13 6v2M13 11v2M13 16v2"/></svg><span>F&uuml;r die Teilnahme am Gewinnspiel brauchst du bei <b>StageDates</b> zus&auml;tzlich zu deinem Ticket ein <b>Los</b>.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Du willst deine Gewinnchance erh&ouml;hen? Du kannst dir dort auch ein <b>Zusatzlos</b> dazukaufen.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var sec=document.getElementById('gewinne'); if(!sec) return;
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){sec.classList.add('on');io.disconnect();}});},{threshold:.08});
+    io.observe(sec);
+  } else sec.classList.add('on');
+
+  // Tap-to-reveal: Antippen spielt die Aufdeckung vorwaerts (geschlossen -> Preis),
+  // nochmal Antippen spielt sie rueckwaerts (Preis -> geschlossen). Frame-Sequenz
+  // auf Canvas, 24 fps, zeitbasiert -> exakt wie in der App.
+  var FPS=24, STEP=1000/FPS;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var cvs=[].slice.call(sec.querySelectorAll('.gw-cv'));
+  cvs.forEach(function(cv){
+    var dir=cv.getAttribute('data-dir');
+    var n=parseInt(cv.getAttribute('data-n'),10)||2;
+    var ctx=cv.getContext('2d');
+    var tile=cv.parentNode;
+    var poster=tile.querySelector('.gw-poster');
+    var hint=tile.querySelector('.gw-hint');
+    var imgs=new Array(n), started=false, sized=false;
+    var cur=0, target=0, open=false, raf=0, lastT=0, acc=0;
+    function pad(i){i=''+i;while(i.length<3)i='0'+i;return i;}
+    function sizeTo(img){ if(sized)return; cv.width=img.naturalWidth||1000; cv.height=img.naturalHeight||562; sized=true; }
+    function frameImg(idx){ var im=imgs[idx]; if(im&&im.ok) return im; for(var d=1;d<n;d++){ if(imgs[idx-d]&&imgs[idx-d].ok)return imgs[idx-d]; if(imgs[idx+d]&&imgs[idx+d].ok)return imgs[idx+d]; } return null; }
+    function paint(idx){ var img=frameImg(idx); if(!img)return; sizeTo(img); ctx.drawImage(img,0,0,cv.width,cv.height); if(poster)poster.style.display='none'; }
+    function showHint(v){ if(!hint)return; if(v)hint.classList.remove('is-hidden'); else hint.classList.add('is-hidden'); }
+    function finish(){ if(!open) showHint(true); }   // Hinweis erst zeigen, wenn wieder am Anfang (zu)
+    function tick(t){
+      raf=0; if(!lastT)lastT=t; acc+=(t-lastT); lastT=t;
+      if(cur!==target){
+        var steps=Math.floor(acc/STEP);
+        if(steps>0){ acc-=steps*STEP; if(target>cur)cur=Math.min(target,cur+steps); else cur=Math.max(target,cur-steps); paint(cur); }
+        if(cur!==target){ raf=requestAnimationFrame(tick); } else { lastT=0; acc=0; finish(); }
+      } else { lastT=0; acc=0; finish(); }
+    }
+    function go(){ if(reduce){ cur=target; paint(cur); finish(); return; } if(!raf){ lastT=0; acc=0; raf=requestAnimationFrame(tick); } }
+    function toggle(){ if(!started)load(); open=!open; target=open?(n-1):0; if(open)showHint(false); go(); }
+    function load(){
+      if(started)return; started=true;
+      for(var i=0;i<n;i++){(function(i){ var im=new Image(); im.decoding='async';
+        im.onload=function(){ im.ok=true; if(!sized)sizeTo(im); if(i===cur)paint(cur); };
+        im.src=dir+'/'+pad(i+1)+'.webp'; imgs[i]=im; })(i);}
+    }
+    if('IntersectionObserver' in window){
+      var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load();io2.disconnect();}});},{rootMargin:'600px 0px'});
+      io2.observe(cv);
+    } else load();
+    tile.addEventListener('click',function(){ toggle(); });
+    tile.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){ e.preventDefault(); toggle(); } });
+    showHint(true);
+  });
+})();
+</script>
+<div class="li-divider" style="margin-bottom:22px"><s></s><b>&#9829;</b><s></s></div>
+
 <!-- NEXT EVENT -->
 
 
@@ -1261,7 +1398,7 @@ video::-internal-media-controls-overflow-button{
               <path d="M13 6v2M13 11v2M13 16v2"/>
             </svg>
           </span>
-          <span>Tickets hier kaufen</span>
+          <span class="lp-t-txt"><b>Tickets hier kaufen</b><small>Vorverkauf &middot; hier auch die Lose</small></span>
           <svg class="lp-t-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M5 12h13M12 5l7 7-7 7"/>
