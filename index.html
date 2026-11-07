@@ -1236,12 +1236,14 @@ video::-internal-media-controls-overflow-button{
 .gw-haupt-in,.gw-karte{box-shadow:0 0 46px 22px rgba(2,2,6,.9)}
 .gw-tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .gw-tap:focus-visible{outline:2px solid #ff2d78;outline-offset:3px}
-.gw-hint{position:absolute;left:30%;top:52%;transform:translate(-50%,-50%);z-index:6;width:62px;height:62px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(10,7,14,.6);box-shadow:0 0 0 2px rgba(255,45,120,.9),0 0 26px rgba(255,45,120,.6),0 8px 22px rgba(0,0,0,.55);pointer-events:none;transition:opacity .35s ease}
+.gw-hint{position:absolute;left:30%;top:52%;transform:translate(-50%,-50%);z-index:6;width:58px;height:58px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:radial-gradient(circle at 50% 36%,rgba(48,22,38,.92),rgba(10,6,12,.88));box-shadow:0 0 0 1.5px rgba(255,78,138,.95),0 0 24px rgba(255,45,120,.5),0 10px 26px rgba(0,0,0,.6),inset 0 1px 1.5px rgba(255,255,255,.2);pointer-events:none;transition:opacity .35s ease}
 .gw-hint.is-hidden{opacity:0}
-.gw-hint svg{position:relative;z-index:2;width:30px;height:30px;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.95));animation:gwTap 1.8s ease-in-out infinite}
-.gw-hint-ring{position:absolute;inset:-7px;border-radius:50%;z-index:1;border:2px solid rgba(255,45,120,.85);animation:gwRing 1.8s ease-out infinite}
-@keyframes gwTap{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(4px) scale(.88)}}
-@keyframes gwRing{0%{transform:scale(.78);opacity:.9}70%{opacity:0}100%{transform:scale(1.7);opacity:0}}
+.gw-hint svg{position:relative;z-index:2;width:30px;height:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.85));animation:gwTap 1.3s ease-in-out infinite;animation-delay:var(--d,0s);transform-origin:52% 66%}
+.gw-hint svg path{fill:#fff}
+.gw-hint-ring{position:absolute;inset:-6px;border-radius:50%;z-index:1;border:2px solid rgba(255,45,120,.8);animation:gwRing 1.9s ease-out infinite;animation-delay:var(--d,0s)}
+.gw-hint-ring.r2{animation-delay:calc(var(--d,0s) + .95s)}
+@keyframes gwTap{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(3px) scale(.84)}}
+@keyframes gwRing{0%{transform:scale(.7);opacity:.85}70%{opacity:0}100%{transform:scale(1.8);opacity:0}}
 .gw-teilnahme{max-width:720px;margin:26px auto 0;padding:20px 22px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,45,120,.35)}
 .gw-teilnahme .gw-eyebrow{margin:0 0 12px}
 .gwt-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
@@ -1264,19 +1266,19 @@ video::-internal-media-controls-overflow-button{
       <div class="gw-haupt-in gw-tap" role="button" tabindex="0" aria-label="Prize 1 aufdecken">
         <img class="gw-poster" src="assets/prize-frames/p1/001.webp" alt="" aria-hidden="true">
         <canvas class="gw-cv" data-dir="assets/prize-frames/p1" data-n="46" aria-hidden="true"></canvas>
-        <span class="gw-hint" aria-hidden="true"><span class="gw-hint-ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>
+        <span class="gw-hint" aria-hidden="true" style="--d:0s"><span class="gw-hint-ring"></span><span class="gw-hint-ring r2"></span><svg viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6C13 6.67 12.33 6 11.5 6S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.92-1.38z"/></svg></span>
       </div>
     </div>
     <div class="gw-reihe">
       <div class="gw-karte gw-a gw-tap" role="button" tabindex="0" aria-label="Prize 2 aufdecken" style="--i:5">
         <img class="gw-poster" src="assets/prize-frames/p2/001.webp" alt="" aria-hidden="true">
         <canvas class="gw-cv" data-dir="assets/prize-frames/p2" data-n="57" aria-hidden="true"></canvas>
-        <span class="gw-hint" aria-hidden="true"><span class="gw-hint-ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>
+        <span class="gw-hint" aria-hidden="true" style="--d:.43s"><span class="gw-hint-ring"></span><span class="gw-hint-ring r2"></span><svg viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6C13 6.67 12.33 6 11.5 6S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.92-1.38z"/></svg></span>
       </div>
       <div class="gw-karte gw-a gw-tap" role="button" tabindex="0" aria-label="Prize 3 aufdecken" style="--i:6">
         <img class="gw-poster" src="assets/prize-frames/p3/001.webp" alt="" aria-hidden="true">
         <canvas class="gw-cv" data-dir="assets/prize-frames/p3" data-n="47" aria-hidden="true"></canvas>
-        <span class="gw-hint" aria-hidden="true"><span class="gw-hint-ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg></span>
+        <span class="gw-hint" aria-hidden="true" style="--d:.86s"><span class="gw-hint-ring"></span><span class="gw-hint-ring r2"></span><svg viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6C13 6.67 12.33 6 11.5 6S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.92-1.38z"/></svg></span>
       </div>
     </div>
       <div class="gw-teilnahme gw-a" style="--i:7">
