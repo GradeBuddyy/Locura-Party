@@ -800,7 +800,6 @@ video::-internal-media-controls-overflow-button{
   box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(240,41,61,.08),0 20px 60px rgba(240,41,61,.10)}
 .ev-media{position:relative;background:#000;aspect-ratio:16/9}
 .ev-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-.ev-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .ev-media::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;
   background:linear-gradient(to bottom,transparent,#12111d);pointer-events:none}
 .ev-body{padding:4px clamp(18px,5vw,28px) clamp(20px,5vw,28px)}
@@ -852,7 +851,6 @@ video::-internal-media-controls-overflow-button{
   mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:evDreh 8s linear infinite}
 @keyframes evDreh{to{--evw:360deg}}
 .ev-media{overflow:hidden}
-.ev-media video{animation:evZoom 16s ease-in-out infinite alternate;will-change:transform}
 @keyframes evZoom{from{transform:scale(1)}to{transform:scale(1.08)}}
 .ev-head .ev-eyebrow{position:relative;padding:0 30px}
 .ev-head .ev-eyebrow::before,.ev-head .ev-eyebrow::after{content:"";position:absolute;top:50%;width:20px;height:1px;
@@ -1220,8 +1218,7 @@ video::-internal-media-controls-overflow-button{
 .gw-wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .gw-head{text-align:center;margin-bottom:24px}
 .gw-eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#ff2d78;font-weight:800;margin:0 0 10px}
-.gw-h2{font-size:clamp(26px,5vw,44px);line-height:1.05;font-weight:900;letter-spacing:-.02em;margin:0;
-  background:linear-gradient(92deg,#fff,#ffd7e6 45%,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gw-h2{font-size:clamp(26px,5vw,42px);line-height:1.12;font-weight:800;letter-spacing:-.01em;margin:0;color:#f3f1fa}
 .gw-sub{margin:12px 0 0;color:#c9c4db;font-size:15px}
 .gw-haupt-top{display:flex;justify-content:center;margin-bottom:12px}
 .gw-badge{display:inline-flex;align-items:center;gap:6px;
@@ -1263,7 +1260,6 @@ video::-internal-media-controls-overflow-button{
       <h2 class="gw-h2 gw-a" style="--i:1">Das kannst du gewinnen</h2>
       <p class="gw-sub gw-a" style="--i:2">Drei Preise &ndash; der Hauptgewinn ganz oben.</p>
     </header>
-    <div class="gw-haupt-top gw-a" style="--i:3"><span class="gw-badge">&#128081; Hauptgewinn</span></div>
     <div class="gw-haupt gw-a" style="--i:4">
       <div class="gw-haupt-in gw-tap" role="button" tabindex="0" aria-label="Prize 1 aufdecken">
         <img class="gw-poster" src="assets/prize-frames/p1/001.webp" alt="" aria-hidden="true">
@@ -1367,7 +1363,7 @@ video::-internal-media-controls-overflow-button{
     <article class="ev-card ev-a" style="--i:2">
       <span class="ev-rand" aria-hidden="true"></span>
       <div class="ev-media">
-        <img src="assets/black-friday-banner.jpg" alt="LOCURA Black Friday Edition – Spanien-Urlaub, Apple AirPods, LOCURA VIP" loading="lazy" decoding="async">
+        <video autoplay muted loop playsinline webkit-playsinline x5-playsinline disablepictureinpicture disableremoteplayback controlslist="nodownload noplaybackrate nofullscreen" preload="auto" tabindex="-1" aria-hidden="true"><source src="assets/black-friday-banner.mp4" type="video/mp4"></video>
       </div>
       <div class="ev-body">
         <span class="ev-chip ev-a" style="--i:4">Black Friday Edition</span>
