@@ -247,7 +247,7 @@
   /* ===== PARTICLES ===== */
   #particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
   .particle{position:absolute;border-radius:50%;animation:float linear infinite;opacity:0}
-  @keyframes float{0%{transform:translateY(100vh) translateX(0) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.4}100%{transform:translateY(-10vh) translateX(var(--drift)) scale(1.2);opacity:0}}
+  @keyframes float{0%{transform:translateY(-12vh) translateX(0) scale(.6);opacity:0}10%{opacity:.6}90%{opacity:.4}100%{transform:translateY(100vh) translateX(var(--drift)) scale(1.1);opacity:0}}
 
   /* ===== HERO ===== */
   #hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:safe center;text-align:center;padding:90px 24px 30px;z-index:1}
@@ -1723,5 +1723,56 @@ document.addEventListener('DOMContentLoaded',()=>{
 })();
 </script>
 
+<!-- Weihnachtlicher Schneefall – Overlay über der ganzen Seite, exakt wie in der App (90 Flocken, gleiche Werte/Bewegung) -->
+<canvas id="snowCanvas" aria-hidden="true" style="position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;filter:blur(0.4px)"></canvas>
+<script>
+(function(){
+  var cv=document.getElementById("snowCanvas"); if(!cv) return;
+  var ctx=cv.getContext("2d");
+  var ANZAHL=90, dpr=Math.max(1, window.devicePixelRatio||1);
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  var flocken=[];
+  for(var i=0;i<ANZAHL;i++){
+    flocken.push({
+      x:          rnd(0,1),
+      startY:     rnd(0,1),
+      radius:     rnd(1.1,3.6),
+      speed:      rnd(20,55),
+      drift:      rnd(8,34),
+      driftSpeed: rnd(0.35,1.1),
+      phase:      rnd(0,2*Math.PI),
+      opacity:    rnd(0.40,0.95)
+    });
+  }
+  var W=0,H=0;
+  function resize(){
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    cv.style.width=W+"px"; cv.style.height=H+"px";
+  }
+  resize();
+  window.addEventListener("resize",resize,{passive:true});
+  function frame(now){
+    var t=now/1000, fallH=H+24;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle="#ffffff";
+    for(var i=0;i<flocken.length;i++){
+      var f=flocken[i];
+      var y=(f.startY*fallH + t*f.speed)%fallH;
+      if(y<0) y+=fallH;
+      y-=12;
+      var x=f.x*W + Math.sin(t*f.driftSpeed + f.phase)*f.drift;
+      ctx.globalAlpha=f.opacity;
+      ctx.beginPath();
+      ctx.arc(x,y,f.radius,0,6.283185307179586);
+      ctx.fill();
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>
